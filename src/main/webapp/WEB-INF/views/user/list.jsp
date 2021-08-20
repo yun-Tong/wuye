@@ -12,16 +12,16 @@
             <label>所属角色:</label>
             <select id="search-role" class="easyui-combobox" panelHeight="auto" style="width:120px">
             	<option value="-1">全部</option>
-            	<c:forEach items="${roleList }" var="role">
-            		<option value="${role.id }">${role.name }</option>
-            	</c:forEach>
+                <option value="1">超级管理员</option>
+                <option value="2">管理员</option>
+                <option value="3">物业</option>
+                <option value="4">其他</option>
             </select>
             <label>性别:</label>
             <select id="search-sex" class="easyui-combobox" panelHeight="auto" style="width:120px">
             	<option value="-1">全部</option>
-            	<option value="0">未知</option>
-            	<option value="1">男</option>
-            	<option value="2">女</option>
+            	<option value="男">男</option>
+            	<option value="女">女</option>
             </select>
             <a href="#" id="search-btn" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
         </div>
@@ -380,14 +380,14 @@
 	
 	//搜索按钮监听
 	$("#search-btn").click(function(){
-		var roleId = $("#search-role").combobox('getValue');
-		var sex = $("#search-sex").combobox('getValue')
-		var option = {username:$("#search-name").val()};
-		if(roleId != -1){
-			option.roleId = roleId;
+		var userState = $("#search-role").combobox('getValue');
+		var userSex = $("#search-sex").combobox('getValue')
+		var option = {userName:$("#search-name").val()};
+		if(userState != -1){
+			option.userState = userState;
 		}
-		if(sex != -1){
-			option.sex = sex;
+		if(userSex != -1){
+			option.userSex = userSex;
 		}
 		$('#data-datagrid').datagrid('reload',option);
 	});
