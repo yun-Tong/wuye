@@ -52,10 +52,10 @@ public interface UserService {
 
     /**
      * 根据userId删除数据库对应数据
-     * @param userId
+     * @param ids
      * @return
      */
-    boolean deleteUser(int userId);
+    boolean deleteUser(List<Integer> ids);
 
     /**
      * 根据userName查询user对象
