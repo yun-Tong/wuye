@@ -85,7 +85,11 @@
     <delete id="deleteUser" parameterType="int">
         delete
         from t_user
-        where mana_id = #{id}
+        where mana_id in
+        <foreach collection="ids" item="id" index="no" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
     </delete>
 
     <select id="findByUserName" parameterType="java.lang.String" resultMap="UserMap">
@@ -127,7 +131,7 @@
             <if test="userState != 0">
                 and mana_state=#{userState}
             </if>
-            <if test="post.postId != 0">
+            <if test="post != null">
                 and mana_postid=#{post.postId}
             </if>
         </where>
