@@ -63,9 +63,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(int userId) {
+    public boolean deleteUser(List<Integer> ids) {
         boolean bool = false;
-        int i= userDao.deleteUser(userId);
+        int i= userDao.deleteUser(ids);
         if(i != 0){
             bool = true;
         }
