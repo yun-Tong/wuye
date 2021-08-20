@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,9 +58,9 @@ public class UserController {
 	}
 	@RequestMapping(value="/list",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> list(){
+	public Map<String, Object> list(User user){
 		Map<String, Object> ret = new HashMap<String, Object>();
-		List<User> userList = userService.findAllUser();
+		List<User> userList = userService.findUser(user);
 		ret.put("rows", userList);
 		return ret;
 	}
@@ -158,13 +159,15 @@ public class UserController {
 			return ret;
 		}
 		String[] s = ids.split(",");
+		List<Integer> listId = new ArrayList<>();
 		for(String id : s){
-			boolean bool = userService.deleteUser(Integer.parseInt(id));
-			if(!bool){
-				ret.put("type", "error");
-				ret.put("msg", "删除失败或部分删除失败");
-				return ret;
-			}
+			listId.add(Integer.valueOf(id));
+		}
+		boolean bool = userService.deleteUser(listId);
+		if(!bool){
+			ret.put("type", "error");
+			ret.put("msg", "删除失败或部分删除失败");
+			return ret;
 		}
 		ret.put("type", "success");
 		ret.put("msg", "用户删除成功！");
