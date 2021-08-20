@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wy.dao.RepairsDao">
+    <resultMap id="RepairsMap" type="cn.com.wy.entity.Repairs">
+        <id column="rep_id" property="repId"/>
+        <result column="rep_enddate" property="repEndDate"/>
+        <result column="rep_startdate" property="repStartDate"/>
+        <result column="rep_issue" property="repIssue"/>
+        <result column="rep_state" property="repState"/>
+        <result column="rep_remark" property="repRemark"/>
+            <association property="head" column="rep_headid"
+                         select="cn.com.wy.dao.HeadDao.findByHeadId">
+            </association>
+    </resultMap>
+
+    <select id="findAll" resultMap="RepairsMap">
+        select *
+        from t_repairs
+    </select>
+
+    <select id="findByHeadId" resultMap="RepairsMap" parameterType="java.lang.Integer">
+        select *
+        from t_repairs
+        where rep_headid = #{headId}
+    </select>
+
+    <select id="findByRepId" resultMap="RepairsMap" parameterType="java.lang.Integer">
+        select *
+        from t_repairs
+        where rep_id = #{repId}
+    </select>
+
+
+    <update id="updateRep" parameterType="cn.com.wy.entity.Repairs">
+        update t_repairs
+        set rep_enddate = #{repEndDate},
+            rep_issue   = #{repIssue},
+            rep_state   = #{repState},
+            rep_remark  = #{repRemark}
+            where rep_id = #{repId}
+    </update>
+
+    <insert id="addRep" parameterType="cn.com.wy.entity.Repairs">
+        insert into t_repairs(rep_issue, rep_state, rep_remark, rep_headid, rep_startdate)
+        values (#{repIssue}, #{repState}, #{repRemark}, #{head.headId}, #{repStartDate})
+    </insert>
+
+    <delete id="deleteRep" parameterType="int">
+        delete
+        from t_repairs
+        where rep_id = #{repId}
+    </delete>
+
+</mapper>
